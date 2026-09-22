@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --aura-navy: #001B2A;
+    --aura-gold: #D4AF37;
+    --aura-gold-light: #F4E8C1;
+    --aura-charcoal: #1A1F2B;
+    --aura-slate: #0E1626;
+  }
+}
+
+body {
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #0b0f17;
+  color: #f1f5f9;
+}
