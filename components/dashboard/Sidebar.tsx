@@ -30,8 +30,8 @@ const navItems: NavItem[] = [
   { name: 'Overview', href: '/', icon: LayoutDashboard },
   { name: 'Billing / POS', href: '/pos', icon: Receipt, highlight: true },
   { name: 'Conversations', href: '/conversations', icon: MessageSquare },
+  { name: 'Products & Stock', href: '/products', icon: Shirt },
   { name: 'Customers', href: '/#customers', icon: Users },
-  { name: 'Products & Stock', href: '/#products', icon: Shirt },
   { name: 'Appointments', href: '/#appointments', icon: Calendar },
   { name: 'Follow-ups', href: '/#follow-ups', icon: Clock },
   { name: 'Analytics', href: '/#analytics', icon: BarChart3 },
@@ -110,6 +110,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             const isCurrentPath =
               (item.href === '/' && pathname === '/') ||
               (item.href === '/pos' && pathname === '/pos') ||
+              (item.href === '/products' && pathname === '/products') ||
               (item.href === '/conversations' && pathname === '/conversations') ||
               activeTab === item.name
 

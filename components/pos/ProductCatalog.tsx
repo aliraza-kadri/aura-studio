@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useMemo } from 'react'
+import Image from 'next/image'
 import { Search, Plus, Shirt, AlertCircle, Check } from 'lucide-react'
 import type { Product } from '@/types/database'
 import type { CartItem } from './types'
@@ -129,26 +130,43 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                   }`}
                 >
                   <div className="space-y-1.5">
-                    <div className="flex items-start justify-between gap-2">
-                      <span className="text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-white/5">
-                        {p.category || 'Apparel'}
-                      </span>
-                      <span
-                        className={`text-[10px] font-mono uppercase px-1.5 py-0.5 rounded ${
-                          isOutOfStock
-                            ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
-                            : isLowStock
-                            ? 'bg-amber-500/10 text-amber-300 border border-amber-500/20'
-                            : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                        }`}
-                      >
-                        {isOutOfStock ? 'Out of Stock' : `${p.stock} in stock`}
-                      </span>
-                    </div>
+                    <div className="flex items-start space-x-2.5">
+                      <div className="relative w-12 h-12 rounded bg-black border border-white/10 overflow-hidden shrink-0 flex items-center justify-center">
+                        {p.image_url ? (
+                          <Image
+                            src={p.image_url}
+                            alt={p.name}
+                            fill
+                            className="object-cover"
+                          />
+                        ) : (
+                          <Shirt className="w-5 h-5 text-zinc-400" />
+                        )}
+                      </div>
 
-                    <h4 className="text-xs font-semibold text-white leading-snug line-clamp-2">
-                      {p.name}
-                    </h4>
+                      <div className="min-w-0 flex-1 space-y-1">
+                        <div className="flex items-start justify-between gap-1">
+                          <span className="text-[10px] font-mono uppercase tracking-wider px-1.5 py-0.2 rounded bg-zinc-800 text-zinc-300 border border-white/5">
+                            {p.category || 'Apparel'}
+                          </span>
+                          <span
+                            className={`text-[9px] font-mono uppercase px-1 py-0.2 rounded ${
+                              isOutOfStock
+                                ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+                                : isLowStock
+                                ? 'bg-amber-500/10 text-amber-300 border border-amber-500/20'
+                                : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                            }`}
+                          >
+                            {isOutOfStock ? 'Out' : `${p.stock} left`}
+                          </span>
+                        </div>
+
+                        <h4 className="text-xs font-semibold text-white leading-snug line-clamp-1">
+                          {p.name}
+                        </h4>
+                      </div>
+                    </div>
 
                     <p className="text-sm font-mono font-bold text-zinc-100">
                       ₹{Number(p.price).toLocaleString('en-IN')}
