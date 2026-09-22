@@ -2,19 +2,20 @@
 
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import {
   LayoutDashboard,
+  Receipt,
   MessageSquare,
   Users,
   Shirt,
   Calendar,
   Clock,
   BarChart3,
-  Zap,
   Settings,
   X,
-  Sparkles,
+  ShieldCheck,
 } from 'lucide-react'
 
 export interface NavItem {
@@ -22,18 +23,19 @@ export interface NavItem {
   href: string
   icon: React.ComponentType<{ className?: string }>
   badge?: string | number
+  highlight?: boolean
 }
 
 const navItems: NavItem[] = [
   { name: 'Overview', href: '/', icon: LayoutDashboard },
+  { name: 'Billing / POS', href: '/pos', icon: Receipt, highlight: true },
   { name: 'Conversations', href: '/conversations', icon: MessageSquare },
   { name: 'Customers', href: '/#customers', icon: Users },
-  { name: 'Products', href: '/#products', icon: Shirt },
+  { name: 'Products & Stock', href: '/#products', icon: Shirt },
   { name: 'Appointments', href: '/#appointments', icon: Calendar },
   { name: 'Follow-ups', href: '/#follow-ups', icon: Clock },
   { name: 'Analytics', href: '/#analytics', icon: BarChart3 },
-  { name: 'Automations', href: '/#automations', icon: Zap },
-  { name: 'Settings', href: '/#settings', icon: Settings },
+  { name: 'Store Settings', href: '/#settings', icon: Settings },
 ]
 
 interface SidebarProps {
@@ -56,50 +58,58 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* Mobile backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/70 backdrop-blur-xs z-40 lg:hidden transition-opacity"
+          className="fixed inset-0 bg-black/80 backdrop-blur-xs z-40 lg:hidden transition-opacity"
           onClick={onClose}
           aria-hidden="true"
         />
       )}
 
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-50 w-72 bg-[#0A0E17] border-r border-slate-800/80 flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 ${
+        className={`fixed top-0 bottom-0 left-0 z-50 w-72 bg-[#090C12] border-r border-white/10 flex flex-col transition-transform duration-200 ease-in-out lg:translate-x-0 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        {/* Brand Header */}
-        <div className="h-20 px-6 flex items-center justify-between border-b border-slate-800/60">
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#D4AF37] to-[#8C6D1F] flex items-center justify-center shadow-lg shadow-[#D4AF37]/10 ring-1 ring-[#D4AF37]/30 transition-transform group-hover:scale-105">
-              <span className="text-slate-950 font-serif font-bold text-lg tracking-wider">A</span>
+        {/* Official Brand Header */}
+        <div className="h-20 px-6 flex items-center justify-between border-b border-white/10 bg-[#07090E]">
+          <Link href="/" className="flex items-center space-x-3.5 group">
+            <div className="relative w-9 h-9 rounded-md bg-black border border-white/15 overflow-hidden flex items-center justify-center p-1">
+              <Image
+                src="/aura-logo.png"
+                alt="AURA STUDIO"
+                width={36}
+                height={36}
+                className="object-contain"
+                priority
+              />
             </div>
             <div>
-              <h1 className="text-white font-serif tracking-[0.2em] text-sm font-semibold uppercase">
+              <div className="text-white font-sans font-bold tracking-[0.25em] text-xs uppercase">
                 AURA STUDIO
-              </h1>
-              <p className="text-[10px] text-[#D4AF37] tracking-widest uppercase font-medium">
-                Luxury Menswear
+              </div>
+              <p className="text-[10px] text-zinc-400 font-mono tracking-widest uppercase">
+                POS & Client Registry
               </p>
             </div>
           </Link>
           <button
             onClick={onClose}
-            className="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors"
+            className="lg:hidden p-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
             aria-label="Close sidebar"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Navigation */}
-        <div className="flex-1 px-3 py-6 overflow-y-auto space-y-1">
-          <div className="px-3 mb-2 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
-            Store Operations
+        {/* Navigation List */}
+        <div className="flex-1 px-3 py-5 overflow-y-auto space-y-1">
+          <div className="px-3 mb-2 text-[10px] font-mono uppercase tracking-widest text-zinc-400">
+            Retail Operations
           </div>
           {navItems.map((item) => {
             const Icon = item.icon
             const isCurrentPath =
               (item.href === '/' && pathname === '/') ||
+              (item.href === '/pos' && pathname === '/pos') ||
               (item.href === '/conversations' && pathname === '/conversations') ||
               activeTab === item.name
 
@@ -111,22 +121,33 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   if (onTabChange) onTabChange(item.name)
                   if (typeof window !== 'undefined' && window.innerWidth < 1024) onClose()
                 }}
-                className={`w-full group flex items-center justify-between px-3.5 py-2.5 rounded-lg text-xs font-medium transition-all duration-150 ${
+                className={`w-full group flex items-center justify-between px-3.5 py-2.5 rounded-md text-xs font-medium transition-colors ${
                   isCurrentPath
-                    ? 'bg-gradient-to-r from-[#D4AF37]/15 to-transparent text-[#F4E8C1] border-l-2 border-[#D4AF37]'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+                    ? 'bg-zinc-800/90 text-white border-l-2 border-white font-semibold'
+                    : item.highlight
+                    ? 'text-zinc-200 hover:text-white hover:bg-zinc-850/80 bg-zinc-900/60 border border-zinc-800/80'
+                    : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900/60'
                 }`}
               >
                 <div className="flex items-center space-x-3">
                   <Icon
                     className={`w-4 h-4 transition-colors ${
-                      isCurrentPath ? 'text-[#D4AF37]' : 'text-slate-400 group-hover:text-slate-300'
+                      isCurrentPath
+                        ? 'text-white'
+                        : item.highlight
+                        ? 'text-zinc-300'
+                        : 'text-zinc-400 group-hover:text-zinc-300'
                     }`}
                   />
                   <span className="tracking-wide">{item.name}</span>
                 </div>
+                {item.highlight && !isCurrentPath && (
+                  <span className="px-1.5 py-0.5 text-[9px] uppercase tracking-wider font-mono rounded bg-white/10 text-zinc-200">
+                    POS
+                  </span>
+                )}
                 {item.badge && (
-                  <span className="px-1.5 py-0.5 text-[10px] rounded bg-slate-800 text-slate-300 font-mono">
+                  <span className="px-1.5 py-0.5 text-[10px] rounded bg-zinc-800 text-zinc-300 font-mono">
                     {item.badge}
                   </span>
                 )}
@@ -135,20 +156,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
           })}
         </div>
 
-        {/* Footer info: Supabase & Store sync status */}
-        <div className="p-4 border-t border-slate-800/60 bg-[#080B12]">
-          <div className="p-3 rounded-lg bg-slate-900/70 border border-slate-800 flex items-center justify-between">
+        {/* Store Register Status Bar */}
+        <div className="p-4 border-t border-white/10 bg-[#07090E]">
+          <div className="p-3 rounded-md bg-zinc-900/90 border border-white/10 flex items-center justify-between">
             <div className="flex items-center space-x-2.5">
-              <div className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-              </div>
+              <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
               <div>
-                <p className="text-[11px] font-medium text-slate-200">Supabase Connected</p>
-                <p className="text-[9px] text-slate-400">Live Database Sync</p>
+                <p className="text-[11px] font-semibold text-zinc-200">Register Active</p>
+                <p className="text-[10px] text-zinc-400 font-mono">Flagship Store</p>
               </div>
             </div>
-            <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
+            <ShieldCheck className="w-4 h-4 text-zinc-400" />
           </div>
         </div>
       </aside>

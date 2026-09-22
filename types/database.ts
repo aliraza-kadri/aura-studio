@@ -70,6 +70,39 @@ export interface Automation {
   description: string | null
 }
 
+export interface Invoice {
+  id: string
+  created_at: string
+  invoice_number: string
+  customer_id: string | null
+  customer_name: string
+  customer_phone: string | null
+  customer_email: string | null
+  subtotal: number
+  discount_type: 'percentage' | 'fixed'
+  discount_value: number
+  discount_amount: number
+  tax_rate: number
+  tax_amount: number
+  total_amount: number
+  payment_method: 'cash' | 'upi' | 'card' | 'split'
+  payment_status: 'paid' | 'pending' | 'refunded'
+  notes: string | null
+}
+
+export interface InvoiceItem {
+  id: string
+  created_at: string
+  invoice_id: string
+  product_id: string | null
+  product_name: string
+  size: string | null
+  color: string | null
+  quantity: number
+  unit_price: number
+  total_price: number
+}
+
 export interface Database {
   public: {
     Tables: {
@@ -246,6 +279,92 @@ export interface Database {
           description?: string | null
         }
         Relationships: []
+      }
+      invoices: {
+        Row: Invoice
+        Insert: {
+          id?: string
+          created_at?: string
+          invoice_number: string
+          customer_id?: string | null
+          customer_name: string
+          customer_phone?: string | null
+          customer_email?: string | null
+          subtotal: number
+          discount_type?: 'percentage' | 'fixed'
+          discount_value?: number
+          discount_amount?: number
+          tax_rate?: number
+          tax_amount?: number
+          total_amount: number
+          payment_method: 'cash' | 'upi' | 'card' | 'split'
+          payment_status?: 'paid' | 'pending' | 'refunded'
+          notes?: string | null
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          invoice_number?: string
+          customer_id?: string | null
+          customer_name?: string
+          customer_phone?: string | null
+          customer_email?: string | null
+          subtotal?: number
+          discount_type?: 'percentage' | 'fixed'
+          discount_value?: number
+          discount_amount?: number
+          tax_rate?: number
+          tax_amount?: number
+          total_amount?: number
+          payment_method?: 'cash' | 'upi' | 'card' | 'split'
+          payment_status?: 'paid' | 'pending' | 'refunded'
+          notes?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      invoice_items: {
+        Row: InvoiceItem
+        Insert: {
+          id?: string
+          created_at?: string
+          invoice_id: string
+          product_id?: string | null
+          product_name: string
+          size?: string | null
+          color?: string | null
+          quantity?: number
+          unit_price: number
+          total_price: number
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          invoice_id?: string
+          product_id?: string | null
+          product_name?: string
+          size?: string | null
+          color?: string | null
+          quantity?: number
+          unit_price?: number
+          total_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoice_items_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
     Views: {
