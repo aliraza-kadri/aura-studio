@@ -1,0 +1,12 @@
+{
+  "name": "@aura-studio/backend",
+  "version": "1.0.0",
+  "description": "Aura Studio Backend Services, Database Schema & Business Logic",
+  "main": "services/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.1"
+  }
+}

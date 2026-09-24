@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AURA STUDIO | Luxury Menswear & POS Automation
+
+A modern full-stack business automation and Point of Sale (POS) system for luxury menswear and bespoke tailoring.
+
+## Project Structure
+
+```
+aura-studio/
+├── frontend/                        # Client-Side Application (Next.js 16, React 19, Tailwind)
+│   ├── app/                         # App Router Pages (POS, Products, Dashboard, Conversations)
+│   │   ├── pos/                     # Retail Billing & Register
+│   │   ├── products/                # Inventory Catalog & Stock Control
+│   │   ├── conversations/           # Client Messaging
+│   │   └── page.tsx                 # Main Store Analytics Dashboard
+│   ├── components/                  # Reusable UI & Feature Components
+│   │   ├── dashboard/               # Navigation, Metrics, Activity
+│   │   ├── pos/                     # Catalog, Cart, Landscape Invoice Modal
+│   │   └── products/                # Product List, Add/Edit Modals
+│   ├── lib/                         # Supabase Client & Utilities
+│   ├── public/                      # Brand Logo & Static Assets
+│   ├── types/                       # Frontend Type Definitions
+│   └── package.json                 # Frontend Dependencies
+│
+├── backend/                         # Server & Data Logic (Supabase / PostgreSQL)
+│   ├── database/                    # SQL Schemas & Database Migrations
+│   │   ├── schema.sql               # Complete PostgreSQL Schema (All Tables)
+│   │   └── setup_rls_and_storage.sql# Storage Bucket & Security Policies
+│   ├── services/                    # Business Logic Services
+│   │   ├── productService.ts        # Product CRUD & Stock Management
+│   │   ├── invoiceService.ts        # Tax Invoice Generation & Itemization
+│   │   └── customerService.ts       # Customer Registry & Search
+│   ├── config/                      # Supabase Server Client Config
+│   ├── types/                       # Backend Entity Type Definitions
+│   └── package.json                 # Backend Specifications
+│
+├── vercel.json                      # Vercel Deployment Configuration
+└── package.json                     # Monorepo Workspace Orchestration
+```
 
 ## Getting Started
 
-First, run the development server:
-
+### Run Frontend Locally:
 ```bash
 npm run dev
 # or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev:frontend
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Build for Production:
+```bash
+npm run build
+```
