@@ -245,7 +245,13 @@ export const ProductModal: React.FC<ProductModalProps> = ({
       await onSave(productPayload, !!productToEdit)
       onClose()
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to save product'
+      const rawMsg =
+        (err as any)?.message ||
+        (err as any)?.error_description ||
+        (err instanceof Error ? err.message : 'Failed to save product')
+      const msg = rawMsg.includes('row-level security')
+        ? 'Database RLS Error: Supabase permissions not configured for products. Please run supabase_setup.sql in Supabase SQL editor.'
+        : rawMsg
       setError(msg)
     } finally {
       setIsSaving(false)

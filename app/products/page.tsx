@@ -72,7 +72,10 @@ export default function ProductsPage() {
         setProducts((prev) => [created, ...prev])
       }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to save product to database'
+      const msg =
+        (err as any)?.message ||
+        (err as any)?.error_description ||
+        (err instanceof Error ? err.message : 'Failed to save product to database')
       setError(msg)
       throw err
     }
