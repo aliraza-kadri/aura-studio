@@ -137,6 +137,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                             src={p.image_url}
                             alt={p.name}
                             fill
+                            unoptimized
                             className="object-cover"
                           />
                         ) : (

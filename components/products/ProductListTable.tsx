@@ -157,6 +157,7 @@ export const ProductListTable: React.FC<ProductListTableProps> = ({
                                 src={p.image_url}
                                 alt={p.name}
                                 fill
+                                unoptimized
                                 className="object-cover"
                               />
                             ) : (
